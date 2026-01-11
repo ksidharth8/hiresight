@@ -85,7 +85,7 @@ export const listMyResumes = async (req: Request, res: Response) => {
 export const getResumeById = async (req: Request, res: Response) => {
 	const { id } = req.params;
 
-	if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+	if (!id || typeof id !== "string" || !mongoose.Types.ObjectId.isValid(id)) {
 		return res.status(400).json({ message: "Invalid resume ID" });
 	}
 
@@ -105,7 +105,7 @@ export const deleteResume = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
 
-		if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+		if (!id || typeof id !== "string" || !mongoose.Types.ObjectId.isValid(id)) {
 			return res.status(400).json({ message: "Invalid resume ID" });
 		}
 

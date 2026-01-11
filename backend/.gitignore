@@ -3,4 +3,4 @@ node_modules/
 .DS_Store
 .vscode/
 dist/
-/generated/prisma
+src/generated/prisma
