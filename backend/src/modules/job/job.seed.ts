@@ -1,4 +1,4 @@
-import { Job } from "./job.model";
+import { Job } from "./job.model.js";
 
 export const seedJobs = async () => {
 	const count = await Job.countDocuments();

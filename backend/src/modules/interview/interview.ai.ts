@@ -1,5 +1,5 @@
 // import OpenAI from "openai";
-import { env } from "../../config/env";
+import { env } from "../../config/env.js";
 
 const API_URL = "https://api.pawan.krd/v1/chat/completions";
 const MODEL = "gpt-oss-20b";

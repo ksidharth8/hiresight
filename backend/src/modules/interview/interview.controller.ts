@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { startInterview, submitAnswers } from "./interview.service";
-import { InterviewSession } from "./interview.model";
+import { startInterview, submitAnswers } from "./interview.service.js";
+import { InterviewSession } from "./interview.model.js";
 
 export const start = async (req: Request, res: Response) => {
 	const { role } = req.body;

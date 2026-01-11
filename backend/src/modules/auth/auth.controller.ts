@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { createUser, validateUser } from "./auth.service";
-import { prisma } from "../../config/prisma";
-import { signToken } from "../../utils/jwt";
-import { setAuthCookie, clearAuthCookie } from "../../config/cookies";
+import { createUser, validateUser } from "./auth.service.js";
+import { prisma } from "../../config/prisma.js";
+import { signToken } from "../../utils/jwt.js";
+import { setAuthCookie, clearAuthCookie } from "../../config/cookies.js";
 
 declare global {
 	namespace Express {

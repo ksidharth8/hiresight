@@ -4,8 +4,8 @@ import {
 	listInterviews,
 	start,
 	submit,
-} from "./interview.controller";
-import { authMiddleware } from "../auth/auth.middleware";
+} from "./interview.controller.js";
+import { authMiddleware } from "../auth/auth.middleware.js";
 
 const router = Router();
 

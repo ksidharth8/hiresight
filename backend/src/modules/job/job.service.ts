@@ -1,5 +1,5 @@
-import { Job } from "./job.model";
-import { matchJob } from "./job.matcher";
+import { Job } from "./job.model.js";
+import { matchJob } from "./job.matcher.js";
 
 export const matchJobsForResume = async (resumeSkills: string[]) => {
 	const jobs = await Job.find();

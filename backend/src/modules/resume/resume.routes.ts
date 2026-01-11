@@ -5,8 +5,8 @@ import {
 	listMyResumes,
 	uploadResume,
 	deleteResume,
-} from "./resume.controller";
-import { authMiddleware } from "../auth/auth.middleware";
+} from "./resume.controller.js";
+import { authMiddleware } from "../auth/auth.middleware.js";
 
 const router = Router();
 

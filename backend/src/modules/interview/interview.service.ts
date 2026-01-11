@@ -1,6 +1,6 @@
-import { InterviewSession } from "./interview.model";
-import { QUESTIONS_BY_ROLE } from "./interview.questions";
-import { generateFeedback } from "./interview.ai";
+import { InterviewSession } from "./interview.model.js";
+import { QUESTIONS_BY_ROLE } from "./interview.questions.js";
+import { generateFeedback } from "./interview.ai.js";
 
 export const startInterview = async (userId: string, role: string) => {
 	const questions = QUESTIONS_BY_ROLE[role.toLowerCase()];

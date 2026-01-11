@@ -2,19 +2,20 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import passport from "passport";
-import "./modules/auth/google.strategy.ts";
-import authRoutes from "./modules/auth/auth.routes.ts";
-import resumeRoutes from "./modules/resume/resume.routes.ts";
-import jobRoutes from "./modules/job/job.routes";
-import { seedJobs } from "./modules/job/job.seed";
-import dashboardRoutes from "./modules/dashboard/dashboard.routes";
-import interviewRoutes from "./modules/interview/interview.routes";
+import "./modules/auth/google.strategy.js";
+import authRoutes from "./modules/auth/auth.routes.js";
+import resumeRoutes from "./modules/resume/resume.routes.js";
+import jobRoutes from "./modules/job/job.routes.js";
+import { seedJobs } from "./modules/job/job.seed.js";
+import dashboardRoutes from "./modules/dashboard/dashboard.routes.js";
+import interviewRoutes from "./modules/interview/interview.routes.js";
+import { env } from "./config/env.js";
 
 const app = express();
 
 app.use(
 	cors({
-		origin: "http://localhost:3000",
+		origin: env.FRONTEND_URL,
 		credentials: true,
 	})
 );

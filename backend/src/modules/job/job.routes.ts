@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getJobMatches, listJobs } from "./job.controller";
-import { authMiddleware } from "../auth/auth.middleware";
+import { getJobMatches, listJobs } from "./job.controller.js";
+import { authMiddleware } from "../auth/auth.middleware.js";
 
 const router = Router();
 

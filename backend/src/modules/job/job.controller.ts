@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Resume } from "../resume/resume.model";
-import { matchJobsForResume } from "./job.service";
-import { Job } from "./job.model";
+import { Resume } from "../resume/resume.model.js";
+import { matchJobsForResume } from "./job.service.js";
+import { Job } from "./job.model.js";
 
 export const listJobs = async (_req: Request, res: Response) => {
 	const jobs = await Job.find(

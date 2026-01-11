@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { Resume } from "../resume/resume.model";
-import { matchJobsForResume } from "../job/job.service";
+import { Resume } from "../resume/resume.model.js";
+import { matchJobsForResume } from "../job/job.service.js";
 
 export const dashboard = async (req: Request, res: Response) => {
 	const resume = await Resume.findOne({ userId: req.userId }).sort({

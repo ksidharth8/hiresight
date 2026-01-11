@@ -1,9 +1,10 @@
 import { Router } from "express";
 import passport from "passport";
-import { signup, login, me, logout } from "./auth.controller";
-import { authMiddleware } from "./auth.middleware";
-import { signToken } from "../../utils/jwt";
-import { setAuthCookie } from "../../config/cookies";
+import { signup, login, me, logout } from "./auth.controller.js";
+import { authMiddleware } from "./auth.middleware.js";
+import { signToken } from "../../utils/jwt.js";
+import { setAuthCookie } from "../../config/cookies.js";
+import { env } from "../../config/env.js";
 
 const router = Router();
 
@@ -24,23 +25,22 @@ router.get(
 
 // Callback route
 router.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    session: false,
-    failureRedirect: "/api/auth/google/failure",
-  }),
-  (req: any, res) => {
-    const token = signToken(req.user.id);
-    setAuthCookie(res, token);
+	"/google/callback",
+	passport.authenticate("google", {
+		session: false,
+		failureRedirect: "/api/auth/google/failure",
+	}),
+	(req: any, res) => {
+		const token = signToken(req.user.id);
+		setAuthCookie(res, token);
 
-    res.redirect("http://localhost:3000/dashboard");
-  }
+		res.redirect(env.FRONTEND_URL);
+	}
 );
 
 // Failure route
 router.get("/google/failure", (_req, res) => {
-  res.status(401).json({ message: "Google authentication failed" });
+	res.status(401).json({ message: "Google authentication failed" });
 });
-
 
 export default router;

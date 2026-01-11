@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { parseResumePDF } from "./resume.parser";
-import { extractSkills } from "./skill.extractor";
-import { scoreResume } from "./resume.scorer";
-import { saveResume } from "./resume.service";
-import cloudinary from "../../config/cloudinary";
-import { Resume } from "./resume.model";
+import { parseResumePDF } from "./resume.parser.js";
+import { extractSkills } from "./skill.extractor.js";
+import { scoreResume } from "./resume.scorer.js";
+import { saveResume } from "./resume.service.js";
+import cloudinary from "../../config/cloudinary.js";
+import { Resume } from "./resume.model.js";
 import { Readable } from "stream";
 import mongoose from "mongoose";
 

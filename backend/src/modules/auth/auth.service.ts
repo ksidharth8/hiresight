@@ -1,5 +1,5 @@
-import { prisma } from "../../config/prisma";
-import { hashPassword, comparePassword } from "../../utils/password";
+import { prisma } from "../../config/prisma.js";
+import { hashPassword, comparePassword } from "../../utils/password.js";
 
 export const createUser = async (
 	name: string,

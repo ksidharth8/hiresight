@@ -1,4 +1,4 @@
-import { SKILLS } from "./skills.dictionary";
+import { SKILLS } from "./skills.dictionary.js";
 
 export const extractSkills = (text: string): string[] => {
 	const lower = text.toLowerCase();

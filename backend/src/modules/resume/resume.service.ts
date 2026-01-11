@@ -1,4 +1,4 @@
-import { Resume } from "./resume.model";
+import { Resume } from "./resume.model.js";
 
 export const saveResume = async ({
 	userId,
