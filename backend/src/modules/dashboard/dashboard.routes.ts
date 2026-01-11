@@ -1,0 +1,10 @@
+import { Router } from "express";
+import { dashboard } from "./dashboard.controller";
+import { authMiddleware } from "../auth/auth.middleware";
+
+const router = Router();
+
+// GET /api/dashboard
+router.get("/", authMiddleware, dashboard);
+
+export default router;
