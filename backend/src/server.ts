@@ -8,9 +8,7 @@ const PORT = env.PORT;
 const start = async () => {
 	await connectMongo();
 	await connectPrisma();
-	app.listen(PORT, () =>
-		console.log(`Server running on https://hiresight-wnra.onrender.com`)
-	);
+	app.listen(PORT, () => console.log(`Server running on ${env.BACKEND_URL}`));
 };
 
 start();
