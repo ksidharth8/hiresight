@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
-	title: "HireSight – AI Career Intelligence Platform",
+	title: "HireSight - AI Career Intelligence Platform",
 	description:
 		"HireSight helps students and freshers analyze resumes, match jobs, and practice interviews with AI-powered feedback.",
 	keywords: [
@@ -17,7 +18,10 @@ export const metadata: Metadata = {
 	],
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+	const cookieStore = await cookies();
+	const hasToken = cookieStore.get("token");
+
 	return (
 		<div className="min-h-screen bg-background">
 			<header className="border-b">
@@ -27,11 +31,17 @@ export default function HomePage() {
 					</h1>
 					<div className="flex gap-4">
 						<ThemeToggle />
-						<Button asChild>
-							<Link href="/login">Login</Link>
-						</Button>
-						<Button asChild variant="outline">
-							<Link href="/signup">Get Started</Link>
+						{!hasToken && (
+							<Button asChild>
+								<Link href="/login">Login</Link>
+							</Button>
+						)}
+						<Button asChild variant={hasToken ? undefined : "outline"}>
+							{hasToken ? (
+								<Link href="/dashboard">Dashboard</Link>
+							) : (
+								<Link href="/signup">Get Started</Link>
+							)}
 						</Button>
 					</div>
 				</div>
@@ -48,11 +58,15 @@ export default function HomePage() {
 
 				<div className="flex justify-center gap-4">
 					<Button size="lg" asChild>
-						<Link href="/signup">Analyze My Resume</Link>
+						<Link href={hasToken ? "/dashboard" : "/signup"}>
+							Analyze My Resume
+						</Link>
 					</Button>
-					<Button size="lg" variant="outline" asChild>
-						<Link href="/login">Login</Link>
-					</Button>
+					{!hasToken && (
+						<Button size="lg" variant="outline" asChild>
+							<Link href="/login">Login</Link>
+						</Button>
+					)}
 				</div>
 			</section>
 
@@ -141,7 +155,11 @@ export default function HomePage() {
 						Get started with HireSight in minutes.
 					</p>
 					<Button size="lg" asChild>
-						<Link href="/signup">Get Started</Link>
+						{hasToken ? (
+							<Link href="/dashboard">Dashboard</Link>
+						) : (
+							<Link href="/signup">Get Started</Link>
+						)}
 					</Button>
 				</div>
 			</section>
