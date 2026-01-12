@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 type FetchOptions = Parameters<typeof fetch>[1];
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE!;
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
 
 // SERVER COMPONENT FETCH
 export async function serverFetch(path: string, options: FetchOptions = {}) {
@@ -14,7 +14,7 @@ export async function serverFetch(path: string, options: FetchOptions = {}) {
 		.map((c) => `${c.name}=${c.value}`)
 		.join("; ");
 
-	const res = await fetch(`${API_BASE}${path}`, {
+	const res = await fetch(`${SITE_URL}${path}`, {
 		...options,
 		headers: {
 			...(options.headers || {}),

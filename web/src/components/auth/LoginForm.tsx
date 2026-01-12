@@ -78,14 +78,14 @@ export default function LoginForm() {
 						variant="outline"
 						className="w-full"
 						onClick={() =>
-							(window.location.href = `${process.env.NEXT_PUBLIC_API_BASE}/api/auth/google`)
+							(window.location.href = `/api/auth/google`)
 						}
 					>
 						Continue with Google
 					</Button>
 
 					<p className="text-sm text-center text-muted-foreground">
-						Don’t have an account?{" "}
+						Don't have an account?{" "}
 						<a href="/signup" className="underline">
 							Sign up
 						</a>

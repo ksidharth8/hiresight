@@ -1,10 +1,8 @@
 type FetchOptions = Parameters<typeof fetch>[1];
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE!;
-
 // CLIENT COMPONENT FETCH
 export async function clientFetch(path: string, options: FetchOptions = {}) {
-	const res = await fetch(`${API_BASE}${path}`, {
+	const res = await fetch(`${path}`, {
 		...options,
 		credentials: "include",
 		headers: {
