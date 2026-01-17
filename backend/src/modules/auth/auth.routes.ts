@@ -20,7 +20,7 @@ router.get("/me", authMiddleware, me);
 // Google OAuth routes
 router.get(
 	"/google",
-	passport.authenticate("google", { scope: ["profile", "email"] })
+	passport.authenticate("google", { scope: ["profile", "email"] }),
 );
 
 // Callback route
@@ -31,11 +31,11 @@ router.get(
 		failureRedirect: "/api/auth/google/failure",
 	}),
 	(req: any, res) => {
-		const token = signToken(req.user.id);
+		const token = signToken(req.user.id, req.user.role);
 		setAuthCookie(res, token);
 
 		res.redirect(env.FRONTEND_URL);
-	}
+	},
 );
 
 // Failure route

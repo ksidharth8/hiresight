@@ -41,7 +41,7 @@ export const uploadResume = async (req: Request, res: Response) => {
 				(error, result) => {
 					if (error) reject(error);
 					else resolve(result);
-				}
+				},
 			);
 
 			Readable.from(file.buffer).pipe(uploadStream);
@@ -90,7 +90,7 @@ export const getResumeById = async (req: Request, res: Response) => {
 	}
 
 	const resume = await Resume.findOne({
-		_id: req.params.id,
+		_id: id,
 		userId: req.userId,
 	});
 
@@ -105,12 +105,16 @@ export const deleteResume = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
 
-		if (!id || typeof id !== "string" || !mongoose.Types.ObjectId.isValid(id)) {
+		if (
+			!id ||
+			typeof id !== "string" ||
+			!mongoose.Types.ObjectId.isValid(id)
+		) {
 			return res.status(400).json({ message: "Invalid resume ID" });
 		}
 
 		const resume = await Resume.findOne({
-			_id: req.params.id,
+			_id: id,
 			userId: req.userId,
 		});
 

@@ -19,7 +19,7 @@ export const signup = async (req: Request, res: Response) => {
 	if (existing) return res.status(409).json({ message: "Email exists" });
 
 	const user = await createUser(name, email, password);
-	const token = signToken(user.id);
+	const token = signToken(user.id, user.role);
 
 	setAuthCookie(res, token);
 
@@ -34,7 +34,7 @@ export const login = async (req: Request, res: Response) => {
 
 	if (!user) return res.status(401).json({ message: "Invalid credentials" });
 
-	const token = signToken(user.id);
+	const token = signToken(user.id, user.role);
 	setAuthCookie(res, token);
 
 	res.json({ success: true });
@@ -48,7 +48,7 @@ export const logout = async (_: Request, res: Response) => {
 export const me = async (req: Request, res: Response) => {
 	const user = await prisma.user.findUnique({
 		where: { id: req.userId },
-		select: { id: true, name: true, email: true },
+		select: { id: true, name: true, email: true, role: true },
 	});
 
 	res.json(user);

@@ -4,11 +4,11 @@ import { defineConfig } from "prisma/config";
 import { env } from "./src/config/env";
 
 export default defineConfig({
-  schema: "prisma/schema.prisma",
-  migrations: {
-    path: "prisma/migrations",
-  },
-  datasource: {
-    url: env["POSTGRES_URL"],
-  },
+	schema: "prisma/schema.prisma",
+	migrations: {
+		path: "prisma/migrations",
+	},
+	datasource: {
+		url: env["POSTGRES_URL"],
+	},
 });

@@ -31,6 +31,6 @@ passport.use(
 				console.error("Google Strategy Error:", err);
 				done(err as Error);
 			}
-		}
-	)
+		},
+	),
 );

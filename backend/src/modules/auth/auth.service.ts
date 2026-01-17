@@ -1,11 +1,12 @@
 import { prisma } from "../../config/prisma.js";
 import { hashPassword, comparePassword } from "../../utils/password.js";
+import { AuthProvider } from "@prisma/client";
 
 export const createUser = async (
 	name: string,
 	email: string,
 	password?: string,
-	provider = "local"
+	provider: AuthProvider = "local",
 ) => {
 	return prisma.user.create({
 		data: {

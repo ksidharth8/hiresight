@@ -1,20 +1,33 @@
 import { Job } from "./job.model.js";
-import { matchJob } from "./job.matcher.js";
+
+const matchJob = (resumeSkills: string[], jobSkills: string[]) => {
+	const matched = jobSkills.filter((skill) => resumeSkills.includes(skill));
+
+	const score = (matched.length / jobSkills.length) * 100;
+
+	return {
+		matchedSkills: matched,
+		score: Math.round(score),
+	};
+};
 
 export const matchJobsForResume = async (resumeSkills: string[]) => {
 	const jobs = await Job.find();
 
 	return jobs
 		.map((job) => {
-			const result = matchJob(resumeSkills, job.requiredSkills);
+			const requiredSkillNames = job.requiredSkills.map(
+				(skill) => skill.name,
+			);
+			const result = matchJob(resumeSkills, requiredSkillNames);
 			return {
-				jobId: job.id,
+				jobId: job._id,
 				title: job.title,
 				company: job.company,
 				score: result.score,
 				matchedSkills: result.matchedSkills,
-				missingSkills: job.requiredSkills.filter(
-					(skill) => !result.matchedSkills.includes(skill)
+				missingSkills: requiredSkillNames.filter(
+					(skill) => !result.matchedSkills.includes(skill),
 				),
 			};
 		})
