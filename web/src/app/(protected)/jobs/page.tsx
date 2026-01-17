@@ -2,7 +2,7 @@ import Link from "next/link";
 import { serverFetch } from "@/lib/api.server";
 
 export default async function JobsPage() {
-	const jobs = await serverFetch("/api/job");
+	const jobs = await serverFetch("/api/jobs");
 
 	return (
 		<div className="max-w-5xl mx-auto space-y-6">
@@ -28,7 +28,13 @@ export default async function JobsPage() {
 							</p>
 							<p className="text-sm">{job.description}</p>
 							<p className="text-sm text-muted-foreground">
-								Skills: {job.requiredSkills.join(", ")}
+								Skills:{" "}
+								{job.requiredSkills
+									.map(
+										(skill: any) =>
+											`${skill.name} (${skill.weight}/5)`,
+									)
+									.join(", ")}
 							</p>
 						</div>
 					))}

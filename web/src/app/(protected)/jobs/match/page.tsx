@@ -10,7 +10,7 @@ export default async function ResumeSelectPage() {
 	}
 
 	if (resumes.length === 1) {
-		redirect(`/jobs/match/${resumes[0].id}`);
+		redirect(`/jobs/match/${resumes[0]._id}`);
 	}
 
 	return (

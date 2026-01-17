@@ -5,7 +5,6 @@ type FetchOptions = Parameters<typeof fetch>[1];
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
 
-// SERVER COMPONENT FETCH
 export async function serverFetch(path: string, options: FetchOptions = {}) {
 	const cookieStore = await cookies();
 
@@ -28,8 +27,22 @@ export async function serverFetch(path: string, options: FetchOptions = {}) {
 	}
 
 	if (!res.ok) {
-		const error = await res.json().catch(() => ({}));
-		throw new Error(error.message);
+		let message = `Request failed (${res.status})`;
+
+		try {
+			const contentType = res.headers.get("content-type");
+
+			if (contentType?.includes("application/json")) {
+				const body = await res.json();
+				message = body?.message || body?.error || message;
+			} else {
+				const text = await res.text();
+				if (text) message = text;
+			}
+		} catch {
+			// swallow parsing errors safely
+		}
+		throw new Error(message);
 	}
 
 	return res.json();

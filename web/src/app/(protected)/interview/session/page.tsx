@@ -8,10 +8,28 @@ import { Card } from "@/components/ui/card";
 import ReactMarkdown from "react-markdown";
 import { Progress } from "@/components/ui/progress";
 
+interface Question {
+	questionText: string;
+	category: string;
+	difficulty: number;
+	skills?: string[];
+}
+
 interface InterviewSession {
-	role: string;
-	questions: string[];
+	_id: string;
+	type?: "role" | "job";
+	role?: string;
+	jobId?: string;
+	questions: Question[];
 	answers: string[];
+}
+
+interface FeedbackItem {
+	correctness: number;
+	depth: number;
+	clarity: number;
+	relevance: number;
+	improvementNotes?: string;
 }
 
 export default function InterviewSessionPage() {
@@ -19,17 +37,24 @@ export default function InterviewSessionPage() {
 	const [session, setSession] = useState<InterviewSession | null>(null);
 	const [index, setIndex] = useState(0);
 	const [current, setCurrent] = useState("");
-	const [feedback, setFeedback] = useState<string | null>(null);
+	const [feedback, setFeedback] = useState<FeedbackItem[] | null>(null);
 	const [status, setStatus] = useState<"answering" | "analyzing" | "done">(
-		"answering"
+		"answering",
 	);
 	const [submitting, setSubmitting] = useState(false);
 	const [hydrated, setHydrated] = useState(false);
+
 	useEffect(() => {
 		const raw = sessionStorage.getItem("interview_session");
 
 		if (raw) {
 			const parsed = JSON.parse(raw);
+			if (!parsed._id) {
+				sessionStorage.removeItem("interview_session");
+				router.push("/interview/start");
+				return;
+			}
+
 			setSession(parsed);
 			setIndex(parsed.answers.length);
 		}
@@ -57,7 +82,7 @@ export default function InterviewSessionPage() {
 		setSession(updatedSession);
 		sessionStorage.setItem(
 			"interview_session",
-			JSON.stringify(updatedSession)
+			JSON.stringify(updatedSession),
 		);
 
 		setCurrent("");
@@ -71,8 +96,7 @@ export default function InterviewSessionPage() {
 			const res = await clientFetch("/api/interview/submit", {
 				method: "POST",
 				body: JSON.stringify({
-					role: updatedSession.role,
-					questions: updatedSession.questions,
+					sessionId: updatedSession._id,
 					answers: updatedSession.answers,
 				}),
 			});
@@ -96,12 +120,39 @@ export default function InterviewSessionPage() {
 
 	if (feedback) {
 		return (
-			<Card className="max-w-2xl mx-auto p-6">
-				<h2 className="text-xl font-semibold mb-2">Interview Feedback</h2>
-				<div className="prose dark:prose-invert whitespace-pre-wrap">
-					<ReactMarkdown>{feedback}</ReactMarkdown>
+			<Card className="max-w-2xl mx-auto p-6 space-y-6">
+				<h2 className="text-xl font-semibold">Interview Feedback</h2>
+
+				<div className="space-y-4">
+					{feedback.map((item, idx) => (
+						<Card key={idx} className="p-4">
+							<p className="font-medium mb-2">Question {idx + 1}</p>
+
+							<div className="grid grid-cols-2 gap-3 text-sm">
+								<div>
+									Correctness: <b>{item.correctness}/5</b>
+								</div>
+								<div>
+									Depth: <b>{item.depth}/5</b>
+								</div>
+								<div>
+									Clarity: <b>{item.clarity}/5</b>
+								</div>
+								<div>
+									Relevance: <b>{item.relevance}/5</b>
+								</div>
+							</div>
+
+							{item.improvementNotes && (
+								<p className="mt-3 text-sm text-muted-foreground">
+									<strong>Improvement:</strong> {item.improvementNotes}
+								</p>
+							)}
+						</Card>
+					))}
 				</div>
-				<Button className="mt-4" onClick={() => router.push("/dashboard")}>
+
+				<Button onClick={() => router.push("/dashboard")}>
 					Back to Dashboard
 				</Button>
 			</Card>
@@ -114,7 +165,13 @@ export default function InterviewSessionPage() {
 				<p className="font-medium">
 					Question {index + 1} / {session.questions.length}
 				</p>
-				<p className="mt-2">{question}</p>
+
+				<p className="mt-2">{question.questionText}</p>
+
+				<p className="text-xs text-muted-foreground mt-2">
+					{question.category} • Difficulty {question.difficulty}{" "}
+					{question.skills && `• Skills Tested: ${question.skills}`}
+				</p>
 			</Card>
 
 			<textarea

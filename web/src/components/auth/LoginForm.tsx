@@ -77,9 +77,7 @@ export default function LoginForm() {
 						type="button"
 						variant="outline"
 						className="w-full"
-						onClick={() =>
-							(window.location.href = `/api/auth/google`)
-						}
+						onClick={() => (window.location.href = `/api/auth/google`)}
 					>
 						Continue with Google
 					</Button>

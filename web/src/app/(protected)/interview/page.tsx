@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { serverFetch } from "@/lib/api.server";
+import { Card } from "@/components/ui/card";
 
 export default async function InterviewHistoryPage() {
 	const interviews = await serverFetch("/api/interview");
@@ -19,18 +20,34 @@ export default async function InterviewHistoryPage() {
 				</p>
 			) : (
 				<div className="space-y-3">
-					{interviews.map((i: any) => (
-						<Link
-							key={i._id}
-							href={`/interview/${i._id}`}
-							className="block border rounded-lg p-4 hover:bg-muted transition"
-						>
-							<p className="font-medium">{i.role}</p>
-							<p className="text-sm text-muted-foreground">
-								{new Date(i.createdAt).toLocaleString()}
-							</p>
-						</Link>
-					))}
+					{interviews.map((i: any) => {
+						const title =
+							i.contextType === "ROLE" ? i.role : i.jobId.title;
+
+						const subtitle =
+							i.contextType === "ROLE"
+								? "Role-based interview"
+								: "Job-based interview";
+
+						return (
+							<Link
+								key={i._id}
+								href={`/interview/${i._id}`}
+								className="block"
+							>
+								<Card className="p-4 hover:bg-muted transition">
+									<p className="font-medium">{title}</p>
+									<p className="text-sm font-weight-[400]">
+										Overall Score: {i.overallScore}
+									</p>
+									<p className="text-sm text-muted-foreground">
+										{subtitle} •{" "}
+										{new Date(i.createdAt).toLocaleString()}
+									</p>
+								</Card>
+							</Link>
+						);
+					})}
 				</div>
 			)}
 		</div>

@@ -3,7 +3,6 @@
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDropzone } from "react-dropzone";
-// import { clientFetch } from "@/lib/api.client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -48,7 +47,7 @@ export default function ResumeUpload() {
 					method: "POST",
 					body: formData,
 					credentials: "include",
-				}
+				},
 			);
 
 			if (res.status === 401) {
@@ -63,7 +62,6 @@ export default function ResumeUpload() {
 			const data = await res.json();
 			setProgress(100);
 
-			// Redirect to resume detail
 			router.push(`/resume/${data.resumeId}`);
 		} catch (e: any) {
 			setError(e.message || "Something went wrong");
